@@ -54,7 +54,6 @@ const part11 = () => {
       combinations.forEach(combination => {
         newCombinations.add(combination * digit);
         newCombinations.add(combination + digit);
-        newCombinations.add(Number("" + combination + digit));
       });
 
       combinations = newCombinations;
