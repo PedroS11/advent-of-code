@@ -7,6 +7,23 @@ const input: string = fs.readFileSync("./src/2024/day8/input", {
 const lines: string[] = input.split("\n");
 const matrix: string[][] = lines.map(line => line.split(""));
 
+const printMatrix = (maze: string[][]) => {
+  for (const line of maze) {
+    console.log(line.join(""));
+  }
+  console.log("\n");
+};
+const printAntiNodes = (antinodes: Set<string>, matrix: string[][]) => {
+  const solvedMatrix = JSON.parse(JSON.stringify(matrix));
+
+  antinodes.forEach(location => {
+    const [x, y] = location.split(",");
+    solvedMatrix[y][x] = "#";
+  });
+
+  printMatrix(solvedMatrix);
+};
+
 const getCharLocations = (): { [char: string]: string[] } => {
   const charLocations: { [char: string]: string[] } = {};
 
@@ -26,29 +43,48 @@ const getCharLocations = (): { [char: string]: string[] } => {
   return charLocations;
 };
 
-const part1 = () => {
+const drawLine = (
+  matrix: string[][],
+  sX: number,
+  sY: number,
+  deltaX: number,
+  deltaY: number,
+) => {
   const antinodes: Set<string> = new Set<string>();
+  let mult = 1;
+
+  while (true) {
+    if (matrix[sX + mult * deltaX]?.[sY + mult * deltaY]) {
+      antinodes.add(`${sX + mult * deltaX},${sY + mult * deltaY}`);
+    } else {
+      break;
+    }
+    mult++;
+  }
+
+  return antinodes;
+};
+
+const part1 = () => {
+  let antinodes: Set<string> = new Set<string>();
   const charLocations: { [char: string]: string[] } = getCharLocations();
 
   const arrayOfLocations = Object.values(charLocations);
 
-  const basicMaze: string[][] = matrix; //replaceNonChars(Object.keys(charLocations)[0]);
-
   for (const locations of arrayOfLocations) {
     locations.forEach((location, index) => {
       let startingIndex = 0;
+      const [sX, sY] = location.split(",").map(Number);
 
       locations.forEach(newLocation => {
         if (index !== startingIndex) {
-          const [sX, sY] = location.split(",").map(Number);
           const [lX, lY] = newLocation.split(",").map(Number);
 
           const deltaX = lX - sX;
           const deltaY = lY - sY;
 
-          if (basicMaze[lY + deltaY]?.[lX + deltaX]) {
-            antinodes.add(`${lX + deltaX},${lY + deltaY}`);
-          }
+          const nodes = drawLine(matrix, sX, sY, deltaX, deltaY);
+          antinodes = antinodes.union(nodes);
         }
         startingIndex++;
       });

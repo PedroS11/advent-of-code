@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "day1": "ts-node src/2024/day8/part1.ts",
-    "day2": "ts-node src/2024/day7/part2.ts",
+    "day2": "ts-node src/2024/day8/part2.ts",
     "lint": "eslint --ext .ts ./src",
     "format": "prettier --ignore-path .gitignore --write \"src/*.ts\""
   },
