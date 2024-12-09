@@ -1,11 +1,11 @@
 import fs from "fs";
 
-const input: string = fs.readFileSync("./input", {
+const input: string = fs.readFileSync("./src/2024/day9/input", {
   encoding: "utf-8",
 });
 
-const part11 = () => {
-  let mapped = [];
+const generateDisk = () => {
+  let disk = [];
 
   input
     .split("")
@@ -14,31 +14,17 @@ const part11 = () => {
       const charToRepeat = index % 2 === 0 ? index / 2 : ".";
 
       for (let i = 0; i < char; i++) {
-        mapped.push(charToRepeat);
+        disk.push(charToRepeat);
       }
     });
 
-  console.log("N");
-  const mappedArray = mapped;
+  return disk;
+};
 
-  for (let index = mappedArray.length - 1; index >= 0; index--) {
-    const firstFreeSpot = mappedArray.findIndex(char => char === ".");
-
-    if (
-      firstFreeSpot >= 0 &&
-      firstFreeSpot < index &&
-      mappedArray[index] !== "."
-    ) {
-      mappedArray[firstFreeSpot] = mappedArray[index];
-      mappedArray[index] = ".";
-    }
-  }
-
-  console.log("AA");
-
+const getChecksum = (disk: any[]): number => {
   let total = 0;
 
-  mappedArray
+  disk
     .filter(char => char !== ".")
     .forEach((value, index) => {
       if (value > 0) {
@@ -46,7 +32,42 @@ const part11 = () => {
       }
     });
 
-  console.log(total);
+  return total;
+};
+
+const defragmentDisk = (disk: any[]): any[] => {
+  let freePos = 0;
+  let dataPos = disk.length - 1;
+
+  while (true) {
+    while (disk[freePos] !== ".") {
+      freePos++;
+    }
+
+    while (disk[dataPos] === ".") {
+      dataPos--;
+    }
+
+    if (dataPos < freePos) {
+      break;
+    }
+
+    disk[freePos] = disk[dataPos];
+    disk[dataPos] = ".";
+  }
+
+  return disk;
+};
+
+const part11 = () => {
+  let disk = generateDisk();
+  console.log("N");
+
+  disk = defragmentDisk(disk);
+
+  const checksum: number = getChecksum(disk);
+
+  console.log(checksum);
 };
 
 part11();
