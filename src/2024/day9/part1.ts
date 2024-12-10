@@ -59,9 +59,8 @@ const defragmentDisk = (disk: any[]): any[] => {
   return disk;
 };
 
-const part11 = () => {
+const part1 = () => {
   let disk = generateDisk();
-  console.log("N");
 
   disk = defragmentDisk(disk);
 
@@ -70,4 +69,4 @@ const part11 = () => {
   console.log(checksum);
 };
 
-part11();
+part1();
