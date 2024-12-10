@@ -54,19 +54,6 @@ const part1 = () => {
           toVisit.push([x + moveX, y + moveY]);
         }
       }
-
-      // if (Number(matrix[y][x]) + 1 === Number(matrix[y + 1]?.[x])) {
-      //   toVisit.push([x, y + 1]);
-      // }
-      // if (Number(matrix[y][x]) + 1 === Number(matrix[y - 1]?.[x])) {
-      //   toVisit.push([x, y - 1]);
-      // }
-      // if (Number(matrix[y][x]) + 1 === Number(matrix[y]?.[x + 1])) {
-      //   toVisit.push([x + 1, y]);
-      // }
-      // if (Number(matrix[y][x]) + 1 === Number(matrix[y]?.[x - 1])) {
-      //   toVisit.push([x - 1, y]);
-      // }
     }
   }
 
