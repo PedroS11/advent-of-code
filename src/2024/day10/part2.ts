@@ -8,28 +8,16 @@ const lines: string[] = input.split("\n");
 const matrix: string[][] = lines.map(line => line.split(""));
 
 const getTrailheads = (): string[][] => {
-  const positions: string[][] = [];
+  const trailheads: string[][] = [];
   for (let y = 0; y < matrix.length; y++) {
     for (let x = 0; x < matrix[y].length; x++) {
       if (matrix[y][x] === "0") {
-        positions.push([x.toString(), y.toString()]);
+        trailheads.push([x.toString(), y.toString()]);
       }
     }
   }
 
-  return positions;
-};
-
-const printMatrix = (x: number, y: number) => {
-  const copy = JSON.parse(JSON.stringify(matrix));
-
-  console.log("POS", x, y, copy[y][x]);
-  // @ts-ignore
-  copy[y][x] = "X";
-  for (const line of matrix) {
-    console.log(line.join(""));
-  }
-  console.log("\n");
+  return trailheads;
 };
 
 const part2 = () => {
