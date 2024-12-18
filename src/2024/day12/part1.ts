@@ -40,8 +40,24 @@ const getSurroundings = (
   return regionPoints;
 };
 
+const calculatePerimeter = (region: Set<number[]>): number => {
+  let total = 0;
+  region.forEach(([x, y]) => {
+    const adjentPoints = [...region].filter(([adjX, adjY]) => {
+      return (
+        (Math.abs(x - adjX) === 1 && Math.abs(y - adjY) === 0) ||
+        (Math.abs(x - adjX) === 0 && Math.abs(y - adjY) === 1)
+      );
+    });
+    total += 4 - adjentPoints.length;
+  });
+  return total;
+};
+
 const part1 = () => {
-  const visited: boolean[][] = [...Array(matrix.length)].map(() => [...Array(matrix.length)].map(() => false));
+  const visited: boolean[][] = Array(matrix.length)
+    .fill(null)
+    .map(() => Array(matrix.length).fill(false));
 
   let regions: Set<number[]>[] = [];
 
@@ -57,16 +73,16 @@ const part1 = () => {
     }
   }
 
-  console.log(regions);
-
   let total = 0;
 
-  // for (const region of regions) {
-  //   const area = region.size;
-  //   const perimeter = region.size;
-  //
-  //   total += area * perimeter;
-  // }
+  for (const region of regions) {
+    const area = region.size;
+    const perimeter = calculatePerimeter(region);
+
+    total += area * perimeter;
+  }
+
+  console.log(total);
 };
 
 part1();
